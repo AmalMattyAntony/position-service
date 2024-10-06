@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = Field(default="")
     POSTGRES_PASSWORD: str = Field(default="")
     POSTGRES_HOST: str = Field(default="")
-    POSTGRES_PORT: str = Field(default="")
+    POSTGRES_PORT: str = Field(default="5432")
     POSTGRES_DB: str = Field(default="")
     POSTGRES_URL: Union[Optional[PostgresDsn], Optional[str]] = None
 
@@ -51,6 +51,7 @@ class Settings(BaseSettings):
             username=values.data.get("POSTGRES_USER"),
             password=values.data.get("POSTGRES_PASSWORD"),
             host=values.data.get("POSTGRES_HOST"),
+            port=int(values.data.get("POSTGRES_PORT")),
             path=f"{values.data.get('POSTGRES_DB') or ''}",
         ).unicode_string()
 
