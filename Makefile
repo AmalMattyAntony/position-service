@@ -33,6 +33,8 @@ alembic-migrate:
 # lint
 test:
 	@echo "running pytest...."
+	-docker compose exec db psql -U postgres  -c "DROP DATABASE test"
+	docker compose exec db psql -U postgres  -c "create DATABASE test"
 	docker compose exec backend pytest --cov-report xml --cov=src tests/
 
 lint:
