@@ -6,7 +6,7 @@ from sqlmodel import SQLModel
 from src.api.v1 import health
 from pydantic import BaseModel, AfterValidator
 from src.models.position import Position
-from src.core.position_service import PositionService
+from src.api.v1.position_service import PositionService
 
 api_router = APIRouter()
 
