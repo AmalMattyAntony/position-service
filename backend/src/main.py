@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 
+from src.db.init_db import initialize
 from src.api import routes
 from src.api.deps import get_redis_client
 from src.core.config import settings
@@ -32,6 +33,7 @@ app = FastAPI(
 
 def on_startup() -> None:
     add_postgresql_extension()
+    initialize()
     redis_client = get_redis_client()
     FastAPICache.init(RedisBackend(redis_client), prefix="fastapi-cache")
     logger.info("FastAPI app running...")
@@ -41,5 +43,5 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"])
 
 app.add_event_handler("startup", on_startup)
 
-app.include_router(routes.home_router)
+app.include_router(routes.api_router)
 app.include_router(routes.api_router, prefix=f"/{settings.VERSION}")
