@@ -24,8 +24,8 @@ def store_position(
 
 
 @api_router.get("/getposition", response_description="", include_in_schema=False)
-def get_position(vesselid: Optional[str] = None, timehours: Optional[int] = None) -> Response:
-    response = position_service.get_position(vesselid, timehours)
+def get_position(timehours: int, vesselid: Optional[str] = None) -> Response:
+    response = position_service.get_position(timehours=timehours, vessel_id=vesselid)
     if response:
         return PlainTextResponse(
             response, status_code=status.HTTP_200_OK
