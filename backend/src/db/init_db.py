@@ -21,8 +21,8 @@ def create_init_data(file_name="init-data.json") -> None:
         with SessionLocal() as session:
             for position in positions:
                 position_obj = Position(**position)
-                session.merge(position_obj)
-        session.commit()
+                session.add(position_obj)
+            session.commit()
 
 
 def initialize():
