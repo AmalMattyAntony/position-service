@@ -17,7 +17,9 @@ class PositionService:
             if timehours:
                 q = q.order_by(sqlalchemy.func.abs(Position.timehours - timehours))
             position = q.limit(1).first()
-            return position.model_dump_json()
+            if position:
+                return position.model_dump_json()
+        return None
 
 
     def store_position(self, position: Position):
@@ -31,7 +33,9 @@ class PositionService:
             except Exception as e:
                 logger.warning("error trying to store position", position, e)
                 return str(type(e))
-            return position.model_dump_json()
+            if position:
+                return position.model_dump_json()
+        return None
 
 
     def get_series(self, vessel_id: str|None = None):

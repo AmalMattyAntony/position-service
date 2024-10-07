@@ -1,5 +1,5 @@
 from typing import Optional, Annotated
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, HTTPException
 from fastapi.responses import PlainTextResponse, Response
 from sqlmodel import SQLModel
 
@@ -17,16 +17,20 @@ position_service = PositionService()
 def store_position(
     payload: Annotated[Position, AfterValidator(Position.model_validate)]
 ) -> Response:
+    response = position_service.store_position(payload)
     return PlainTextResponse(
-        position_service.store_position(payload), status_code=status.HTTP_200_OK
+        response, status_code=status.HTTP_200_OK
     )
 
 
 @api_router.get("/getposition", response_description="", include_in_schema=False)
 def get_position(vesselid: Optional[str] = None, timehours: Optional[int] = None) -> Response:
-    return PlainTextResponse(
-        position_service.get_position(vesselid, timehours), status_code=status.HTTP_200_OK
-    )
+    response = position_service.get_position(vesselid, timehours)
+    if response:
+        return PlainTextResponse(
+            response, status_code=status.HTTP_200_OK
+        )
+    raise HTTPException(status_code=404, detail="No positions available")
 
 
 @api_router.get("/getseries", response_description="", include_in_schema=False)
