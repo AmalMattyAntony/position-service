@@ -8,6 +8,37 @@
 
 # craft-demo
 
+## CRAFT DEMO QUICK START
+
+This should bring up the services and seed with initial values:
+`make quickstart`
+The service should be available at <http://localhost/>
+\
+Sample calls: \
+<http://localhost/getposition?timehours=105&vesselid=Osprey-3658> \
+<http://localhost/getseries>
+
+```
+curl --location 'http://localhost/storeposition' \
+--header 'Content-Type: application/json' \
+--data '{
+"vesselid": "test-01",
+"timehours": 100,
+"x": 1,
+"y": 2,
+"z": 3
+}'
+```
+
+## Craft Demo Usage
+
+1. Bring up db, nginx, backend containers:
+`make up`
+2. Seed with initial values:
+`make init-db`
+3. Running tests:
+`make test`
+
 ## Architecture
 <p align="center">
     <a href="#">
@@ -15,15 +46,7 @@
     </a>
 </p>
 
-## Usage
-1. `make up`
-2. visit `http://localhost:8666/v1/ping` for uvicorn server, or `http://localhost` for nginx server
-3. Backend, JSON based web API based on OpenAPI: `http://localhost/v1/`
-4. Automatic interactive documentation with Swagger UI (from the OpenAPI backend): `http://localhost/docs`
-
 ## Backend local development, additional details
-
-### Migrations
 
 ### General workflow
 See the [Makefile](/Makefile) to view available commands.

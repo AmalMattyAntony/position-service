@@ -1,5 +1,9 @@
 all:
 
+quickstart:
+	docker compose up -d
+	docker compose exec backend python3 src/db/init_db.py
+
 # docker
 up:
 	@echo "bringing up project...."
@@ -50,7 +54,7 @@ mypy:
 	docker compose exec backend mypy src/
 
 # database
-init-db: alembic-init alembic-migrate
+init-db:
 	@echo "initializing database...."
 	docker compose exec backend python3 src/db/init_db.py
 
