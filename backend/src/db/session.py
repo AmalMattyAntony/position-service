@@ -18,6 +18,8 @@ def add_postgresql_extension() -> None:
     with SessionLocal() as db:
         query = text("CREATE EXTENSION IF NOT EXISTS pg_trgm")
         db.execute(query)
+        query = text("CREATE EXTENSION IF NOT EXISTS btree_gist")
+        db.execute(query)
 
 
 def get_session() -> Generator[Session, None, None]:
